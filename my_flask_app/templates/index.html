@@ -1,13 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Flask App</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
+<header class="header">
     <div class="container">
-        <h1>Welcome to Flask</h1>
-        <p>This is a basic Flask application.</p>
+        <div class="header-content">
+            <i data-lucide="stethoscope" class="text-blue-600"></i>
+            <h1 class="title">Medical Quiz Platform</h1>
+        </div>
+        <div class="search-container">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" id="search" class="search-input" placeholder="Search medical conditions...">
+        </div>
     </div>
-</body>
-</html>
+</header>
+
+<main class="container">
+    {% for question in questions %}
+    <div class="question-card" data-correct="{{ question.correctAnswer }}">
+        <div class="category">{{ question.category }}</div>
+        <h3 class="question">{{ question.question }}</h3>
+        <div class="options">
+            {% for option in question.options %}
+            <button class="option">
+                <span class="option-letter">{{ loop.index0 | chr(65) }}.</span>
+                {{ option }}
+            </button>
+            {% endfor %}
+        </div>
+        <div class="explanation">
+            <strong>Explanation:</strong> {{ question.explanation }}
+        </div>
+    </div>
+    {% endfor %}
+</main>
+{% endblock %}
